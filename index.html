@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="style.css">
     <title>Document</title>
 </head>
-<body>
-    <canvas width="548" height="300" id="area_dibujo"></canvas>
+<body id="body">
+    <canvas width="900" height="480" id="area_dibujo"></canvas>
     <br>
     Escoja un color:&nbsp;  <input type="color" id="color">
     <br>
@@ -20,7 +20,13 @@
                             <option value="10">10</option> 
                             <option value="16">16</option> 
                             <option value="24">24</option> 
-    </select>
+                           </select>
+    <br>
+    <br>
+    <div></div>
+        <button id="borrador">Borrador</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  | Cuando sales del area de dibujo la funcion "borrador" se desactiva |
+    </div>   
+    
     <script src="script.js"></script>
 </body>
 </html>
