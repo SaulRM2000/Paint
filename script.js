@@ -1,38 +1,85 @@
-var grosorLinea = document.getElementById("grosor");
+var borrador = document.getElementById("borrador");
+var grosorLinea = document.getElementById("grosor");  // grueso de la linea 
 var colorLinea = document.getElementById("color");    // color a la linea
-var area = document.getElementById('area_dibujo');
-var lienzo = area.getContext("2d");
+var area = document.getElementById('area_dibujo');    // se trae el canvas
+var lienzo = area.getContext("2d");                   // contexto del canvas
 
  /*area de variables*/   
 var x;                      // guardar coordenada en X
-var y;                      // guardar coordenada en Y
-var Click_activo = 0;             // estado del click
+var y;                     // guardar coordenada en Y
+var Click_activo = false;       // estado del click
 
+/*Variables de borrador*/
+var Modo_borrador = false      
+var BorradorClick = false;    // estado del borrador
+
+/*Funciones para dibujar*/
 area.addEventListener("mousedown",presionarMouse);  //cuando presionas click
 area.addEventListener("mouseup",soltarMouse);       //cuando sueltas click
 area.addEventListener("mousemove",dibujarMouse);    //cuando mueves el mouse
 
-// Funcion para mousedown
+/*Funciones del borrador*/
+borrador.addEventListener("click",modoBorrador_True);
+area.addEventListener("mouseout",modoBorrador_False);
+area.addEventListener("mousedown",borradorClick_True);
+area.addEventListener("mouseup",borradorClick_False);
+
+function modoBorrador_True(evento)
+{
+  Modo_borrador = true;
+  x = evento.layerX;
+  y = evento.layerY;
+}
+
+function modoBorrador_False(evento)
+{
+  Modo_borrador = false;
+  x = evento.layerX;
+  y = evento.layerY;
+}
+
+function borradorClick_True(evento)
+{
+  BorradorClick = true;
+  x = evento.layerX;
+  y = evento.layerY;
+}
+
+function borradorClick_False(evento)
+{
+  BorradorClick = false;
+  x = evento.layerX;
+  y = evento.layerY;
+}
+
+
+
+// Evento mousedown
 function presionarMouse(evento)
 {
-  Click_activo = 1;         //click presionado  
+  Click_activo = true;         //click presionado  
   x = evento.layerX;
   y = evento.layerY;
 }
 
-// Funcion para mouseup
+// Evento mouseup
 function soltarMouse(evento)
 {
-  Click_activo = 0;         // click suelto
+  Click_activo = false;         // click suelto
   x = evento.layerX;
   y = evento.layerY;
 }
 
 
-// Funcion para mousemove
+// Evento mousemove
 function dibujarMouse(evento)
 {
-  if (Click_activo == 1)  // solo se dibujara si esta el click del mouse presionado
+  if(Modo_borrador == true && BorradorClick == true)
+  {
+    dibujarLinea("white", x, y, evento.layerX, evento.layerY, grosorLinea.value);
+  } 
+
+  else if (Click_activo == true)  // solo se dibujara si esta el click del mouse presionado
   { 
       
     dibujarLinea(colorLinea.value, x, y, evento.layerX, evento.layerY, grosorLinea.value);
@@ -57,12 +104,13 @@ function dibujarLinea(color, xinicial, yinicial, xfinal, yfinal, grosor)
 }
 
 /* -=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-.
-*                                      *
-*       Version para celulares         * -----------------------------------------------------------
-*                                      *
+*                                      * -----------------------------------------------------------*| 
+*       Version para celulares         *                   | | | | | | | | |
+*                                      *                   V V V V V V V V V
 * .-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=. */
 
 
+/*area de variables*/  
 var xm;
 var ym;
 var Touch_activo = 0;  
@@ -95,3 +143,11 @@ function dibujarTouch(evento)
   xm = evento.touches[0].clientX;
   ym = evento.touches[0].clientY;
 }
+
+
+
+
+
+
+
+
